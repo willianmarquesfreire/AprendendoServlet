@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,7 +49,8 @@ public class ParentServlet extends HttpServlet {
                     value.forEach((String uri, Method method) -> {
                         method.setAccessible(true);
 
-                        if (uri.equals(request.getServletPath())) {
+                        boolean uriEquals = request.getServletPath().matches(".*".concat(uri.replaceAll("/", ".")));
+                        if (uriEquals) {
                             try {
                                 Object result = method.invoke(clazz.newInstance(), null);
 

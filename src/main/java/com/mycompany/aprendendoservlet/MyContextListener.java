@@ -36,6 +36,7 @@ public class MyContextListener implements ServletContextListener {
                     Map<String, Method> mapMethods = new HashMap<>();
                     for (Method method : clazz.getDeclaredMethods()) {
                         if (method.isAnnotationPresent(Api.class)) {
+                            System.out.println("---->: " + method.getName());
                             mapMethods.put(((Api) clazz.getAnnotation(Api.class)).url().concat(method.getAnnotation(Api.class).url()), method);
                         }
                     }

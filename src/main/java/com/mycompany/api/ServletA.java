@@ -20,6 +20,7 @@ public class ServletA {
 
     @Api(url = "/ola")
     public String construa() throws ServletException, IOException {
+        System.out.println("cahmoskoasa");
         return "<h1>ola danilo</h1>";
     }
 
