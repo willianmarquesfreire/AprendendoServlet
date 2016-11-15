@@ -3,6 +3,8 @@ com/mycompany/annotations/Api.class
 com/mycompany/aprendendoservlet/Clazz.class
 com/mycompany/aprendendoservlet/MyContextListener.class
 com/mycompany/aprendendoservlet/ParentServlet.class
+com/mycompany/model/Cidade.class
 com/mycompany/api/ServletA.class
 com/mycompany/model/Pessoa.class
+com/mycompany/model/CEP.class
 com/mycompany/model/Endereco.class

@@ -18,7 +18,7 @@ public class MyContextListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent event) {
     }
-    
+
     @Override
     public void contextInitialized(ServletContextEvent event) {
 
@@ -31,7 +31,7 @@ public class MyContextListener implements ServletContextListener {
         try {
             Class[] classes = Clazz.getClasses("com.mycompany.api");
             for (Class clazz : classes) {
-                
+
                 if (clazz.isAnnotationPresent(Api.class)) {
                     Map<String, Method> mapMethods = new HashMap<>();
                     for (Method method : clazz.getDeclaredMethods()) {

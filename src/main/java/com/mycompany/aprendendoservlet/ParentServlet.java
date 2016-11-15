@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
@@ -34,22 +35,33 @@ public class ParentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
+//        response.setContentType("application/json");
         MyContextListener.resources
-                .forEach((clazz, value) -> {
+                .forEach((Class clazz, Map<String, Method> value) -> {
                     try {
                         Class.forName(clazz.getCanonicalName());
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(ParentServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    value.forEach((uri, method) -> {
+                    value.forEach((String uri, Method method) -> {
                         method.setAccessible(true);
 
                         if (uri.equals(request.getServletPath())) {
                             try {
                                 Object result = method.invoke(clazz.newInstance(), null);
-                                String json = parseJson(result);
-                                response.getWriter().write(json);
+
+                                StringBuilder toReturn = new StringBuilder();
+
+                                if (!result.getClass().getCanonicalName().equals("java.lang.String")
+                                        && !result.getClass().getCanonicalName().equals("java.lang.Double")
+                                        && !result.getClass().getCanonicalName().equals("java.lang.Float")
+                                        && !result.getClass().getCanonicalName().equals("java.lang.Byte")
+                                        && !result.getClass().getCanonicalName().equals("java.lang.Boolean")) {
+                                    toReturn.append(parseJson(result));
+                                } else {
+                                    toReturn.append(result);
+                                }
+                                response.getWriter().write(toReturn.toString());
                             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | IOException ex) {
                                 Logger.getLogger(ParentServlet.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -59,12 +71,11 @@ public class ParentServlet extends HttpServlet {
     }
 
     private String parseJson(Object obj) {
-        System.out.println("ee ---- " + obj.getClass().getFields().length);
         StringBuffer json = new StringBuffer("{");
         try {
             for (Field field : obj.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
-                json.append("\"" + field.getName() + "\"");
+                json.append("\"".concat(field.getName()).concat("\""));
                 json.append(":");
                 verifyGetMethods(obj, field, json);
                 json.append(",");
@@ -83,6 +94,7 @@ public class ParentServlet extends HttpServlet {
                 if (method.getName().startsWith("get")
                         && method.getName().substring(3).equalsIgnoreCase(field.getName())) {
                     method.setAccessible(true);
+                    Object invoke = method.invoke(obj);
                     if (method.getReturnType().toString().contains("class")
                             && !method.getReturnType().getCanonicalName().equals("java.lang.String")
                             && !method.getReturnType().getCanonicalName().equals("java.lang.Double")
@@ -90,11 +102,15 @@ public class ParentServlet extends HttpServlet {
                             && !method.getReturnType().getCanonicalName().equals("java.lang.Byte")
                             && !method.getReturnType().getCanonicalName().equals("java.lang.Boolean")) {
 
-                        json.append(parseJson(method.invoke(obj)));
-
+                        if (invoke != null) {
+                            json.append(parseJson(method.invoke(obj)));
+                        } else {
+                            json.append("null");
+                        }
+                    } else if (invoke != null) {
+                        json.append("\"".concat(invoke.toString()).concat("\""));
                     } else {
-                        json.append("\"" + method.invoke(obj) + "\"");
-
+                        json.append("null");
                     }
                 }
             }
