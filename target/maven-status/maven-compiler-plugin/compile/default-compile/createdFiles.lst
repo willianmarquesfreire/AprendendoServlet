@@ -5,3 +5,4 @@ com/mycompany/aprendendoservlet/MyContextListener.class
 com/mycompany/aprendendoservlet/ParentServlet.class
 com/mycompany/api/ServletA.class
 com/mycompany/model/Pessoa.class
+com/mycompany/model/Endereco.class

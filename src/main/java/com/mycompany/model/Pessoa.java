@@ -6,8 +6,9 @@ package com.mycompany.model;
  */
 public class Pessoa {
 
-    public String nome;
-    public int idade;
+    private String nome;
+    private int idade;
+    private Endereco endereco;
 
     public String getNome() {
         return nome;
@@ -23,6 +24,19 @@ public class Pessoa {
 
     public void setIdade(int idade) {
         this.idade = idade;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" + "nome=" + nome + ", idade=" + idade + ", endereco=" + endereco + '}';
     }
 
 }

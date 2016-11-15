@@ -1,6 +1,7 @@
 package com.mycompany.api;
 
 import com.mycompany.annotations.Api;
+import com.mycompany.model.Endereco;
 import com.mycompany.model.Pessoa;
 import java.io.IOException;
 
@@ -27,9 +28,11 @@ public class ServletA {
     
     @Api(url = "/pessoa")
     public Pessoa getPessoa() throws ServletException, IOException {
+        Endereco e = new Endereco(10, "Av oi");
         Pessoa p = new Pessoa();
         p.setNome("Willian");
         p.setIdade(20);
+        p.setEndereco(e);
         return p;
     }
 
