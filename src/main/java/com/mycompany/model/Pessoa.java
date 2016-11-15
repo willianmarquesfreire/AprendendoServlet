@@ -4,7 +4,7 @@ package com.mycompany.model;
  *
  * @author wmfsystem
  */
-public class Pessoa {
+public class Pessoa extends PessoaFisica{
 
     private String nome;
     private int idade;

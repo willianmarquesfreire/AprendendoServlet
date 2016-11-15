@@ -5,6 +5,7 @@
 /home/wmfsystem/NetBeansProjects/AprendendoServlet/src/main/java/com/mycompany/aprendendoservlet/FilterApi.java
 /home/wmfsystem/NetBeansProjects/AprendendoServlet/src/main/java/com/mycompany/model/Cidade.java
 /home/wmfsystem/NetBeansProjects/AprendendoServlet/src/main/java/com/mycompany/model/Endereco.java
+/home/wmfsystem/NetBeansProjects/AprendendoServlet/src/main/java/com/mycompany/model/PessoaFisica.java
 /home/wmfsystem/NetBeansProjects/AprendendoServlet/src/main/java/com/mycompany/aprendendoservlet/ParentServlet.java
 /home/wmfsystem/NetBeansProjects/AprendendoServlet/src/main/java/com/mycompany/annotations/Api.java
 /home/wmfsystem/NetBeansProjects/AprendendoServlet/src/main/java/com/mycompany/aprendendoservlet/MyContextListener.java

@@ -5,11 +5,13 @@
  */
 package com.mycompany.aprendendoservlet;
 
-import com.mycompany.model.Endereco;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,8 +74,9 @@ public class ParentServlet extends HttpServlet {
 
     private String parseJson(Object obj) {
         StringBuffer json = new StringBuffer("{");
+        List<Field> allFields = getAllFields(new LinkedList<>(), obj.getClass());
         try {
-            for (Field field : obj.getClass().getDeclaredFields()) {
+            for (Field field : allFields) {
                 field.setAccessible(true);
                 json.append("\"".concat(field.getName()).concat("\""));
                 json.append(":");
@@ -88,9 +91,19 @@ public class ParentServlet extends HttpServlet {
         return json.toString();
     }
 
+    public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+        fields.addAll(Arrays.asList(type.getDeclaredFields()));
+
+        if (type.getSuperclass() != null) {
+            fields = getAllFields(fields, type.getSuperclass());
+        }
+
+        return fields;
+    }
+
     private void verifyGetMethods(Object obj, Field field, StringBuffer json) {
         try {
-            for (Method method : obj.getClass().getDeclaredMethods()) {
+            for (Method method : obj.getClass().getMethods()) {
                 if (method.getName().startsWith("get")
                         && method.getName().substring(3).equalsIgnoreCase(field.getName())) {
                     method.setAccessible(true);

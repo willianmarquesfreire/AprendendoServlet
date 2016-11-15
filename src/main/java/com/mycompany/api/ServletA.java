@@ -32,10 +32,17 @@ public class ServletA {
     public Pessoa getPessoa() throws ServletException, IOException {
         Endereco e = new Endereco(10, "Av oi", new Cidade("Cambira", null));
         Pessoa p = new Pessoa();
-        p.setNome("Willian");
+        p.setNome("aWillian");
+        p.setCPF("000.000.000-00");
         p.setIdade(20);
         p.setEndereco(e);
         return p;
+    }
+    
+    @Api(url = "/endereco")
+    public Endereco getEndereco() throws ServletException, IOException {
+        Endereco e = new Endereco(10, "Av oi", new Cidade("Cambira", null));
+        return e;
     }
 
 }
