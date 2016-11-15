@@ -1,6 +1,7 @@
 package com.mycompany.aprendendoservlet;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -22,17 +23,17 @@ public class FilterApi implements Filter {
     }
 
     private void tempoExecucao(FilterChain chain, ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        long tempoInicial = System.currentTimeMillis();
+        int tempoInicial = LocalDateTime.now().getNano();
         
         chain.doFilter(request, response);
         
-        long tempoFinal = System.currentTimeMillis();
+        int tempoFinal = LocalDateTime.now().getNano();
         String uri = ((HttpServletRequest) request).getRequestURI();
         String parametros = ((HttpServletRequest) request)
                 .getParameter("logica");
         System.out.println("Tempo da requisicao de " + uri
                 + "?logica="
-                + parametros + " demorou (ms): "
+                + parametros + " demorou (ns): "
                 + (tempoFinal - tempoInicial));
     }
 
